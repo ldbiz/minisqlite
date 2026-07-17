@@ -483,7 +483,7 @@ sequenceDiagram
     T->>W: append one frame per dirty page
     T->>W: mark the last frame as the commit frame (new db size)
     T->>W: fsync (the commit point)
-    Note over D: the .db file is untouched; readers keep their snapshots
+    Note over D: the .db file is untouched, and readers keep their snapshots
     Note over W,D: a later checkpoint copies committed frames into the .db,<br/>then the WAL can be reset from the start
 ```
 
