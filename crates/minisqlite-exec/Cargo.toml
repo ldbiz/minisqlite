@@ -1,0 +1,21 @@
+[package]
+name = "minisqlite-exec"
+edition.workspace = true
+version.workspace = true
+publish.workspace = true
+
+[lib]
+path = "src/lib.rs"
+
+[dependencies]
+minisqlite-types = { path = "../minisqlite-types" }
+minisqlite-pager = { path = "../minisqlite-pager" }
+minisqlite-catalog = { path = "../minisqlite-catalog" }
+minisqlite-plan = { path = "../minisqlite-plan" }
+minisqlite-expr = { path = "../minisqlite-expr" }
+minisqlite-functions = { path = "../minisqlite-functions" }
+minisqlite-btree = { path = "../minisqlite-btree" }
+minisqlite-fileformat = { path = "../minisqlite-fileformat" }
+
+[dev-dependencies]
+minisqlite-sql = { path = "../minisqlite-sql" }

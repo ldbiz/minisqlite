@@ -1,0 +1,12 @@
+[package]
+name = "minisqlite-journal"
+edition.workspace = true
+version.workspace = true
+publish.workspace = true
+
+[lib]
+path = "src/lib.rs"
+
+[dependencies]
+minisqlite-types = { path = "../minisqlite-types" }
+minisqlite-fileformat = { path = "../minisqlite-fileformat" }

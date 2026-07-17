@@ -1,0 +1,22 @@
+[package]
+name = "minisqlite"
+edition.workspace = true
+version.workspace = true
+publish.workspace = true
+
+[lib]
+path = "src/lib.rs"
+
+# The public facade: re-exports the shared types and delegates to the engine.
+# Keep its public surface (Connection + the re-exported types) STABLE; move real
+# work into component crates rather than growing this one.
+[dependencies]
+minisqlite-types = { path = "../minisqlite-types" }
+minisqlite-engine = { path = "../minisqlite-engine" }
+
+# Local performance + durability harness covering scalability and durability.
+# `harness = false` so it is a plain `fn main`
+# measured with std only — no external bench dependency.
+[[bench]]
+name = "workloads"
+harness = false

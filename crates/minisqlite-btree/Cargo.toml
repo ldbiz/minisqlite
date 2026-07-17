@@ -1,0 +1,13 @@
+[package]
+name = "minisqlite-btree"
+edition.workspace = true
+version.workspace = true
+publish.workspace = true
+
+[lib]
+path = "src/lib.rs"
+
+[dependencies]
+minisqlite-types = { path = "../minisqlite-types" }
+minisqlite-pager = { path = "../minisqlite-pager" }
+minisqlite-fileformat = { path = "../minisqlite-fileformat" }

@@ -1,0 +1,28 @@
+[package]
+name = "minisqlite-plan"
+edition.workspace = true
+version.workspace = true
+publish.workspace = true
+
+[lib]
+path = "src/lib.rs"
+
+[dependencies]
+minisqlite-types = { path = "../minisqlite-types" }
+minisqlite-sql = { path = "../minisqlite-sql" }
+minisqlite-catalog = { path = "../minisqlite-catalog" }
+# The binder lowers the SQL AST into `minisqlite-expr`'s
+# `EvalExpr`; wired in now so the IR crate is a live part of the route.
+minisqlite-expr = { path = "../minisqlite-expr" }
+# The binder resolves function names to concrete handles via the built-in
+# function registry; wired in now so the functions crate is a live part of the route.
+minisqlite-functions = { path = "../minisqlite-functions" }
+
+[dev-dependencies]
+# Tests build a lightweight in-memory `Catalog`; its trait signatures name the
+# `Pager` type, so the pager crate is needed to write the (never-called) stubs.
+minisqlite-pager = { path = "../minisqlite-pager" }
+# The `order_scan_real_catalog` integration test plans against the REAL `SchemaCatalog`
+# (not the unit tests' static stub), which needs a page-1-formatted image: `init_database`
+# builds one on a fresh `MemPager` so real `CREATE TABLE`/`CREATE INDEX` DDL can run.
+minisqlite-btree = { path = "../minisqlite-btree" }

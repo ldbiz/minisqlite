@@ -1,0 +1,30 @@
+[package]
+name = "minisqlite-pager"
+edition.workspace = true
+version.workspace = true
+publish.workspace = true
+
+[lib]
+path = "src/lib.rs"
+
+[dependencies]
+minisqlite-types = { path = "../minisqlite-types" }
+minisqlite-fileformat = { path = "../minisqlite-fileformat" }
+minisqlite-journal = { path = "../minisqlite-journal" }
+# The WAL codec + index + checkpoint algorithms the WAL-mode backing consumes. All
+# on-disk `-wal` file I/O lives here in the pager; the wal crate stays a pure
+# codec/algorithm layer. This dependency also closes the wal crate's orphan-crate
+# seam check (`crates/minisqlite/tests/seams.rs::no_orphan_crate`).
+minisqlite-wal = { path = "../minisqlite-wal" }
+# Append-only, stable-address page cache: `read_committed(&self) -> &[u8]` must hand
+# out a borrow that survives later load-on-miss inserts. `FrozenMap` inserts behind
+# `&self` and returns a reference into the boxed slice's own heap allocation.
+elsa = "1.11"
+
+[dev-dependencies]
+# The table/index b-tree, used only by the on-disk-format tests to WRITE real
+# `.db` bytes (init_database / create_table_btree / table_insert) and compare them
+# to hand-built, spec-derived fixtures. `minisqlite-btree` depends on this pager, so
+# this is a DEV-only dependency cycle — Cargo excludes dev-deps from the normal build
+# graph, so it compiles fine and never affects the library build.
+minisqlite-btree = { path = "../minisqlite-btree" }

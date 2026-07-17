@@ -1,0 +1,15 @@
+[package]
+name = "minisqlite-catalog"
+edition.workspace = true
+version.workspace = true
+publish.workspace = true
+
+[lib]
+path = "src/lib.rs"
+
+[dependencies]
+minisqlite-types = { path = "../minisqlite-types" }
+minisqlite-pager = { path = "../minisqlite-pager" }
+minisqlite-btree = { path = "../minisqlite-btree" }
+minisqlite-sql = { path = "../minisqlite-sql" }
+minisqlite-fileformat = { path = "../minisqlite-fileformat" }

@@ -1,0 +1,32 @@
+[package]
+name = "minisqlite-engine"
+edition.workspace = true
+version.workspace = true
+publish.workspace = true
+
+[lib]
+path = "src/lib.rs"
+
+# The engine routes each statement through the owned component seams: parse
+# (minisqlite-sql) -> plan (minisqlite-plan) -> execute (minisqlite-exec) over the
+# schema (minisqlite-catalog) and storage (minisqlite-pager). The on-disk codec
+# (minisqlite-fileformat) sits under the pager.
+[dependencies]
+minisqlite-types = { path = "../minisqlite-types" }
+minisqlite-sql = { path = "../minisqlite-sql" }
+minisqlite-pager = { path = "../minisqlite-pager" }
+minisqlite-catalog = { path = "../minisqlite-catalog" }
+minisqlite-plan = { path = "../minisqlite-plan" }
+minisqlite-exec = { path = "../minisqlite-exec" }
+# The engine formats a fresh page 1 (the sqlite_schema b-tree) via init_database on
+# an empty pager; the b-tree layer owns that construction.
+minisqlite-btree = { path = "../minisqlite-btree" }
+# The typed page-1 header codec: `PRAGMA user_version` reads/writes the header's
+# user_version field through it (one source of truth for the on-disk header layout,
+# with a magic check), and the engine reuses its DEFAULT_PAGE_SIZE.
+minisqlite-fileformat = { path = "../minisqlite-fileformat" }
+
+# Integration tests in tests/ are a separate crate and need the value vocabulary
+# (`Value`) to assert on result sets; the engine's normal deps are not in scope there.
+[dev-dependencies]
+minisqlite-types = { path = "../minisqlite-types" }
